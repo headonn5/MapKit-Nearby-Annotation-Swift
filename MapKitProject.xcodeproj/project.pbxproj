@@ -144,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				CFE3C929237A92750011E68E /* AirportAnnotation.swift */,
-				CFE3C92A237A92750011E68E /* LocationManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -162,6 +161,7 @@
 			children = (
 				CFE3C92E237A92750011E68E /* ViewController.swift */,
 				CFE3C92F237A92750011E68E /* MapViewController.swift */,
+				CFE3C92A237A92750011E68E /* LocationManager.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
