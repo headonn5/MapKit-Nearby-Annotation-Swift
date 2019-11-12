@@ -20,6 +20,7 @@
 		CFE3C937237A93950011E68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C936237A93950011E68E /* Main.storyboard */; };
 		CFE3C939237A93E50011E68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C938237A93E50011E68E /* Localizable.strings */; };
 		CFE3C93B237A95DB0011E68E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C93A237A95DB0011E68E /* README.md */; };
+		CFE3C93D237A974E0011E68E /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CFE3C93C237A974E0011E68E /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		CFE3C936237A93950011E68E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CFE3C938237A93E50011E68E /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CFE3C93A237A95DB0011E68E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CFE3C93C237A974E0011E68E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 		CFE3C8EE237A92310011E68E = {
 			isa = PBXGroup;
 			children = (
+				CFE3C93C237A974E0011E68E /* .gitignore */,
 				CFE3C93A237A95DB0011E68E /* README.md */,
 				CFE3C8F9237A92310011E68E /* MapKitProject */,
 				CFE3C90E237A92320011E68E /* MapKitProjectTests */,
@@ -283,6 +286,7 @@
 				CFE3C939237A93E50011E68E /* Localizable.strings in Resources */,
 				CFE3C93B237A95DB0011E68E /* README.md in Resources */,
 				CFE3C905237A92320011E68E /* LaunchScreen.storyboard in Resources */,
+				CFE3C93D237A974E0011E68E /* .gitignore in Resources */,
 				CFE3C902237A92320011E68E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
