@@ -31,12 +31,12 @@ class ViewController: UIViewController {
                 let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 50_000, longitudinalMeters: 50_000)
                 self?.boundingRegion = region
                 self?.search(for: "International Airport nearby")
-                
-                DispatchQueue.main.async {
-                    if let sv = self?.spinner {
-                        sv.removeFromSuperview()
-                        self?.spinner = nil
-                    }
+            }
+            // Remove the spinner from the view
+            DispatchQueue.main.async {
+                if let sv = self?.spinner {
+                    sv.removeFromSuperview()
+                    self?.spinner = nil
                 }
             }
         }

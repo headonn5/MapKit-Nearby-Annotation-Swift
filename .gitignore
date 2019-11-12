@@ -2,5 +2,6 @@
 
 ## User settings
 xcuserdata/
+*.xcuserstate
 
 

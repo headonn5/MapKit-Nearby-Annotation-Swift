@@ -24,12 +24,6 @@ class LocationManager: NSObject {
             return
         }
         
-        let status = CLLocationManager.authorizationStatus()
-        guard status != .denied else {
-            displayLocationServicesDeniedAlert()
-            return
-        }
-        
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
 
@@ -78,6 +72,16 @@ class LocationManager: NSObject {
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.last
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .denied:
+            displayLocationServicesDeniedAlert()
+            currentLocation = nil
+        default:
+            break
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
