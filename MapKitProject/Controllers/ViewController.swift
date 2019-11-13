@@ -4,6 +4,7 @@ import MapKit
 class ViewController: UIViewController {
     
 
+    @IBOutlet weak var showPortsButton: UIButton!
     @IBOutlet var locationManager: LocationManager!
     private var boundingRegion: MKCoordinateRegion?
     private var currentLocationObserver: NSObjectProtocol?
@@ -24,6 +25,12 @@ class ViewController: UIViewController {
         spinner = SpinnerView(frame: self.view.frame)
         spinner!.labelColor = UIColor.gray
         spinner!.addChildView(toView: self.view, atYOffset: -100.0, andXOffset: 0.0, withText: "Fetching Location...")
+        // Disable show ports button
+        showPortsButton.isUserInteractionEnabled = false
+        
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) {[unowned self] (_) in
+            self.locationManager.requestLocation()
+        }
         
         self.currentLocationObserver = NotificationCenter.default.addObserver(forName: Notification.Name("CurrentLocationUpdated"), object: nil, queue: nil) { [weak self] (_) in
             if let location = self?.locationManager.currentLocation {
@@ -40,11 +47,6 @@ class ViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        locationManager.requestLocation()
     }
 
     @IBAction func showPorts(_ sender: UIButton) {
@@ -79,7 +81,6 @@ class ViewController: UIViewController {
         if let region = boundingRegion {
             searchRequest.region = region
         }
-        
         localSearch = MKLocalSearch(request: searchRequest)
         localSearch?.start { [weak self] (response, error) in
             guard error == nil else {
@@ -88,6 +89,8 @@ class ViewController: UIViewController {
             }
             
             self?.places = response?.mapItems
+            // Enable show ports button
+            self?.showPortsButton.isUserInteractionEnabled = true
             
             // Used when setting the map's region in `prepareForSegue`.
             self?.boundingRegion = response?.boundingRegion
@@ -95,10 +98,18 @@ class ViewController: UIViewController {
     }
     
     private func displaySearchError(_ error: Error?) {
-        if let error = error as NSError?, let errorString = error.userInfo[NSLocalizedDescriptionKey] as? String {
-            let alertController = UIAlertController(title: "Could not find any places.", message: errorString, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alertController, animated: true, completion: nil)
+        if let error = error as NSError?, error.code == 4 {
+            let alertController = UIAlertController(title: "Could not find any places.", message: "Press OK to re-search or Cancel to abort", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (_) in
+                self?.search(for: "International Airport nearby")
+            }))
+            guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
+                print("The key window did not have a root view controller")
+                return
+            }
+            viewController.present(alertController, animated: true, completion: nil)
+//            present(alertController, animated: true, completion: nil)
         }
     }
     

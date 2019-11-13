@@ -13,7 +13,7 @@
         <!--Home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AsiaProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MapKitProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -36,18 +36,19 @@
                     <navigationItem key="navigationItem" title="Home" id="Bwj-Kx-SEK"/>
                     <connections>
                         <outlet property="locationManager" destination="ged-6B-u1Q" id="WdI-wm-Tqq"/>
+                        <outlet property="showPortsButton" destination="jmU-ZM-02j" id="UND-JN-fHh"/>
                         <segue destination="M2I-ue-Vr0" kind="show" identifier="showPortsSegue" id="4pZ-Ux-A4V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <customObject id="ged-6B-u1Q" customClass="LocationManager" customModule="AsiaProject" customModuleProvider="target"/>
+                <customObject id="ged-6B-u1Q" customClass="LocationManager" customModule="MapKitProject" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="990" y="117"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="jNj-j3-mFf">
             <objects>
-                <viewController id="M2I-ue-Vr0" customClass="MapViewController" customModule="AsiaProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="M2I-ue-Vr0" customClass="MapViewController" customModule="MapKitProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vck-UV-a4r">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
