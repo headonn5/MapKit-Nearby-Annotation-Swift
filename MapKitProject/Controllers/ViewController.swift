@@ -19,12 +19,25 @@ class ViewController: UIViewController {
         }
     }
     
+    func removeSpinner() {
+        if let sv = spinner {
+            sv.removeFromSuperview()
+            spinner = nil
+        }
+    }
+    
+    func addSpinner(withText text: String) {
+        spinner = SpinnerView(frame: self.view.frame)
+        spinner!.labelColor = UIColor.gray
+        spinner!.addChildView(toView: self.view, atYOffset: -100.0, andXOffset: 0.0, withText: text)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        spinner = SpinnerView(frame: self.view.frame)
-        spinner!.labelColor = UIColor.gray
-        spinner!.addChildView(toView: self.view, atYOffset: -100.0, andXOffset: 0.0, withText: "Fetching Location...")
+        // Add Spinner view
+        addSpinner(withText: "Fetching Location...")
+        
         // Disable show ports button
         showPortsButton.isUserInteractionEnabled = false
         
@@ -37,20 +50,21 @@ class ViewController: UIViewController {
                 
                 let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 50_000, longitudinalMeters: 50_000)
                 self?.boundingRegion = region
-                self?.search(for: "International Airport nearby")
             }
+            
+            // Enable show ports button
+            self?.showPortsButton.isUserInteractionEnabled = true
+            
             // Remove the spinner from the view
             DispatchQueue.main.async {
-                if let sv = self?.spinner {
-                    sv.removeFromSuperview()
-                    self?.spinner = nil
-                }
+                self?.removeSpinner()
             }
         }
     }
 
     @IBAction func showPorts(_ sender: UIButton) {
-        performSegue(withIdentifier: "showPortsSegue", sender: self)
+        // MKLocalSearch Request should not be called from the completion handler. This gives error occasionally
+        search(for: "International airports nearby")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -77,39 +91,47 @@ class ViewController: UIViewController {
     }
     
     private func search(using searchRequest: MKLocalSearch.Request) {
+        // Add Spinner
+        addSpinner(withText: "Searching...")
+        
         // Confine the map search area to an area around the user's current location.
         if let region = boundingRegion {
             searchRequest.region = region
         }
+        
         localSearch = MKLocalSearch(request: searchRequest)
         localSearch?.start { [weak self] (response, error) in
+            
+            // Remove Spinner
+            DispatchQueue.main.async {
+                self?.removeSpinner()
+            }
+            
             guard error == nil else {
                 self?.displaySearchError(error)
                 return
             }
             
             self?.places = response?.mapItems
-            // Enable show ports button
-            self?.showPortsButton.isUserInteractionEnabled = true
             
             // Used when setting the map's region in `prepareForSegue`.
             self?.boundingRegion = response?.boundingRegion
+            
+            // Move to maps view when the search results are shown
+            self?.performSegue(withIdentifier: "showPortsSegue", sender: self)
         }
     }
     
     private func displaySearchError(_ error: Error?) {
         if let error = error as NSError?, error.code == 4 {
             let alertController = UIAlertController(title: "Could not find any places.", message: "Press OK to re-search or Cancel to abort", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (_) in
-                self?.search(for: "International Airport nearby")
-            }))
+            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            
             guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
                 print("The key window did not have a root view controller")
                 return
             }
             viewController.present(alertController, animated: true, completion: nil)
-//            present(alertController, animated: true, completion: nil)
         }
     }
     
